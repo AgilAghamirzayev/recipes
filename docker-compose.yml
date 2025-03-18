@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:4.4.3
+    container_name: mongodb
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME_FILE: /run/secrets/mongodb_user
+      MONGO_INITDB_ROOT_PASSWORD_FILE: /run/secrets/mongodb_password
+    volumes:
+      - mongo_data:/data/db
+    secrets:
+      - mongodb_user
+      - mongodb_password
+
+volumes:
+  mongo_data:
+    driver: local
+
+secrets:
+  mongodb_user:
+    file: ./secrets/mongodb_user
+  mongodb_password:
+    file: ./secrets/mongodb_password
